@@ -25,12 +25,6 @@
     [self.view addSubview:self.textField];
     
     [self setupConstraints];
-    
-    
-    
-    
-    
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,11 +41,35 @@
     
     self.heightConstraint.constant = 300;
     
+    
     [UIView animateWithDuration:5 delay:5 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
-        
+
     }];
+    
+    CALayer *model = self.textField.layer.modelLayer;
+    UIView *greenView = [[UIView alloc] initWithFrame:model.frame];
+    greenView.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:greenView];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:self.view];
+    
+    UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 8)];
+    blueView.backgroundColor = [UIColor blueColor];
+    blueView.center = touchLocation;
+    
+    if ([self.textField.layer.presentationLayer hitTest:touchLocation])
+    {
+        blueView.backgroundColor = [UIColor purpleColor];
+    }
+    
+    [self.view addSubview:blueView];
 }
 
 -(UITextField *)textField
